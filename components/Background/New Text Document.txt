@@ -1,0 +1,125 @@
+You are given a task to integrate an existing React component in the codebase
+
+The codebase should support:
+- shadcn project structure  
+- Tailwind CSS
+- Typescript
+
+If it doesn't, provide instructions on how to setup project via shadcn CLI, install Tailwind or Typescript.
+
+Determine the default path for components and styles. 
+If default path for components is not /components/ui, provide instructions on why it's important to create this folder
+Copy-paste this component to /components/ui folder:
+```tsx
+gradient-background.tsx
+'use client';
+import type React from 'react';
+import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
+
+type GradientBackgroundProps = React.ComponentProps<'div'> & {
+	// Animation customization
+	gradients?: string[];
+	animationDuration?: number;
+	animationDelay?: number;
+
+	// Layout customization
+	enableCenterContent?: boolean;
+
+	// Visual customization
+	overlay?: boolean;
+	overlayOpacity?: number;
+};
+
+const Default_Gradients = [
+    "linear-gradient(135deg, #2d1b69 0%, #11998e 100%)",
+    "linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%)",
+    "linear-gradient(135deg, #0f3460 0%, #e94560 100%)",
+    "linear-gradient(135deg, #134e5e 0%, #71b280 100%)",
+    "linear-gradient(135deg, #2d1b69 0%, #11998e 100%)",
+  ]
+
+export function GradientBackground({
+	children,
+	className = '',
+	gradients = Default_Gradients,
+	animationDuration = 8,
+	animationDelay = 0.5,
+	overlay = false,
+	overlayOpacity = 0.3,
+}: GradientBackgroundProps) {
+	return (
+		<div className={cn('w-full relative min-h-screen overflow-hidden', className)}>
+			{/* Animated gradient background */}
+			<motion.div
+				className="absolute inset-0"
+				style={{ background: gradients[0] }}
+				animate={{ background: gradients }}
+				transition={{
+					delay: animationDelay,
+					duration: animationDuration,
+					repeat: Number.POSITIVE_INFINITY,
+					ease: 'easeInOut',
+				}}
+			/>
+
+			{/* Optional overlay */}
+			{overlay && (
+				<div
+					className="absolute inset-0 bg-black"
+					style={{ opacity: overlayOpacity }}
+				/>
+			)}
+
+			{/* Content wrapper */}
+			{children && (
+				<div
+					className={cn(
+						'relative z-10 flex min-h-screen items-center justify-center',
+					)}
+				>
+					{children}
+				</div>
+			)}
+		</div>
+	);
+}
+
+
+demo.tsx
+import { GradientBackground } from "@/components/ui/gradient-background";
+
+export default function DefaultDemo() {
+	return (
+		<GradientBackground className="flex min-h-screen items-center justify-center">
+			<div className="space-y-6 px-4 text-center text-white">
+				<h1 className="text-4xl font-extrabold md:text-5xl">
+					Animated Gradients Background
+				</h1>
+			</div>
+		</GradientBackground>
+	);
+}
+```
+
+Install NPM dependencies:
+```bash
+framer-motion
+```
+
+Implementation Guidelines
+ 1. Analyze the component structure and identify all required dependencies
+ 2. Review the component's argumens and state
+ 3. Identify any required context providers or hooks and install them
+ 4. Questions to Ask
+ - What data/props will be passed to this component?
+ - Are there any specific state management requirements?
+ - Are there any required assets (images, icons, etc.)?
+ - What is the expected responsive behavior?
+ - What is the best place to use this component in the app?
+
+Steps to integrate
+ 0. Copy paste all the code above in the correct directories
+ 1. Install external dependencies
+ 2. Fill image assets with Unsplash stock images you know exist
+ 3. Use lucide-react icons for svgs or logos if component requires them

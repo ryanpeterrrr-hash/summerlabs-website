@@ -1,0 +1,290 @@
+You are given a task to integrate an existing React component in the codebase
+
+The codebase should support:
+- shadcn project structure  
+- Tailwind CSS
+- Typescript
+
+If it doesn't, provide instructions on how to setup project via shadcn CLI, install Tailwind or Typescript.
+
+Determine the default path for components and styles. 
+If default path for components is not /components/ui, provide instructions on why it's important to create this folder
+Copy-paste this component to /components/ui folder:
+```tsx
+welcome.tsx
+import * as React from "react";
+import { motion } from "framer-motion";
+import { PlayCircle } from "lucide-react";
+import { cn } from "@/lib/utils"; // Your utility for merging Tailwind classes
+import { Button, type ButtonProps } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+
+// Define the type for an action item
+export interface ActionItem {
+  icon: React.ReactNode;
+  label: string;
+  isBeta?: boolean;
+  onClick?: () => void;
+  buttonProps?: ButtonProps;
+}
+
+// Define the props for the main component
+export interface WorkspaceWelcomeProps {
+  /** The name of the user to display in the welcome message. */
+  userName: string;
+  /** The source URL for the video thumbnail. */
+  videoThumbnail: string;
+  /** The title of the video, displayed over the thumbnail. */
+  videoTitle: string;
+  /** The description of the video. */
+  videoDescription: string;
+  /** An array of action items to be displayed as buttons. */
+  actions: ActionItem[];
+  /** A callback function to be invoked when the video card is clicked. */
+  onPlayVideo?: () => void;
+  /** Additional CSS class names for the component container. */
+  className?: string;
+}
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 100,
+      damping: 12,
+    },
+  },
+};
+
+export const WorkspaceWelcome = React.forwardRef<HTMLDivElement, WorkspaceWelcomeProps>(
+  (
+    {
+      userName,
+      videoThumbnail,
+      videoTitle,
+      videoDescription,
+      actions,
+      onPlayVideo,
+      className,
+    },
+    ref
+  ) => {
+    return (
+      <motion.div
+        ref={ref}
+        className={cn(
+          "flex w-full max-w-2xl flex-col items-center gap-8 rounded-lg p-4",
+          className
+        )}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        {/* Welcome Header */}
+        <motion.h1
+          className="text-center text-2xl font-bold tracking-tight text-foreground md:text-3xl"
+          variants={itemVariants}
+        >
+          Welcome to your workspace, {userName}! 👋
+        </motion.h1>
+
+        {/* Action Buttons */}
+        <motion.div
+          className="flex flex-wrap items-center justify-center gap-3"
+          variants={itemVariants}
+        >
+          {actions.map((action, index) => (
+            <Button
+              key={index}
+              variant="outline"
+              className="flex items-center gap-2"
+              onClick={action.onClick}
+              {...action.buttonProps}
+            >
+              {action.icon}
+              <span className="font-medium">{action.label}</span>
+              {action.isBeta && (
+                <Badge variant="secondary" className="ml-1 px-1.5 py-0.5 text-xs">
+                  BETA
+                </Badge>
+              )}
+            </Button>
+          ))}
+        </motion.div>
+
+        {/* Video Card */}
+        <motion.div
+          className="group relative w-full cursor-pointer overflow-hidden rounded-xl shadow-lg"
+          onClick={onPlayVideo}
+          variants={itemVariants}
+          whileHover={{ scale: 1.02 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        >
+          <img
+            src={videoThumbnail}
+            alt={videoTitle}
+            className="aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+          <div className="absolute bottom-0 left-0 p-6 text-white">
+            <h3 className="text-lg font-bold">{videoTitle}</h3>
+            <p className="text-sm text-white/80">{videoDescription}</p>
+          </div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <PlayCircle className="h-16 w-16 text-white/80 transition-all duration-300 group-hover:scale-110 group-hover:text-white" />
+          </div>
+        </motion.div>
+      </motion.div>
+    );
+  }
+);
+
+WorkspaceWelcome.displayName = "WorkspaceWelcome";
+
+demo.tsx
+import * as React from "react";
+import { WorkspaceWelcome, type ActionItem } from "@/components/ui/welcome";
+import { Scissors, Video, Signal } from "lucide-react";
+
+const WorkspaceWelcomeDemo = () => {
+  // Define the action buttons with icons and handlers
+  const actions: ActionItem[] = [
+    {
+      icon: <Scissors className="h-4 w-4 text-purple-500" />,
+      label: "Create Project",
+      onClick: () => alert("Create Project clicked!"),
+    },
+    {
+      icon: <Video className="h-4 w-4 text-red-500" />,
+      label: "Record Video",
+      onClick: () => alert("Record Video clicked!"),
+    },
+    {
+      icon: <Signal className="h-4 w-4 text-blue-500" />,
+      label: "Go Live",
+      isBeta: true,
+      onClick: () => alert("Go Live clicked!"),
+    },
+  ];
+
+  // Handler for the video play action
+  const handlePlayVideo = () => {
+    // In a real app, you would open a modal or navigate to a video player
+    // For this demo, we'll just log to the console
+    console.log("Playing video: https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+    alert("Play Video clicked! Check the console for the video link.");
+  };
+
+  return (
+    <div className="flex h-full w-full items-center justify-center bg-background p-4">
+      <WorkspaceWelcome
+        userName="Ravi Katiyar"
+        actions={actions}
+        videoThumbnail="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop" // Example thumbnail
+        videoTitle="Welcome to VEED.IO"
+        videoDescription="Learn about VEED in less than 2 minutes!"
+        onPlayVideo={handlePlayVideo}
+      />
+    </div>
+  );
+};
+
+export default WorkspaceWelcomeDemo;
+```
+
+Copy-paste these files for dependencies:
+```tsx
+shadcn/button
+import * as React from "react"
+import { Slot } from "@radix-ui/react-slot"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { cn } from "@/lib/utils"
+
+const buttonVariants = cva(
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline:
+          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
+      },
+      size: {
+        default: "h-10 px-4 py-2",
+        sm: "h-9 rounded-md px-3",
+        lg: "h-11 rounded-md px-8",
+        icon: "h-10 w-10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  },
+)
+
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean
+}
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button"
+    return (
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+Button.displayName = "Button"
+
+export { Button, buttonVariants }
+
+```
+
+Install NPM dependencies:
+```bash
+lucide-react, framer-motion, @radix-ui/react-slot, class-variance-authority
+```
+
+Implementation Guidelines
+ 1. Analyze the component structure and identify all required dependencies
+ 2. Review the component's argumens and state
+ 3. Identify any required context providers or hooks and install them
+ 4. Questions to Ask
+ - What data/props will be passed to this component?
+ - Are there any specific state management requirements?
+ - Are there any required assets (images, icons, etc.)?
+ - What is the expected responsive behavior?
+ - What is the best place to use this component in the app?
+
+Steps to integrate
+ 0. Copy paste all the code above in the correct directories
+ 1. Install external dependencies
+ 2. Fill image assets with Unsplash stock images you know exist
+ 3. Use lucide-react icons for svgs or logos if component requires them

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SummerLabs — The AI Operating System for Modern Business</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/images/favicon.png">
+  <link rel="apple-touch-icon" href="assets/images/favicon.png">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ============ NAVBAR ============ -->
+  <header class="navbar" id="navbar">
+    <div class="container navbar-inner">
+      <a href="#home" class="logo">
+        <img src="assets/images/logo-dark.png" alt="SummerLabs" class="logo-img">
+      </a>
+
+      <nav class="nav-links" id="nav-links">
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#who-we-serve">Who We Serve</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <a href="#contact" class="btn btn-white nav-cta">Book a Demo</a>
+
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============ HERO (VIDEO) ============ -->
+  <section class="hero" id="home">
+    <div class="hero-video-bg" aria-hidden="true">
+      <video class="hero-video" autoplay muted loop playsinline>
+        <source src="assets/video/WhatsApp Video 2026-06-15 at 10.27.05 AM.mp4" type="video/mp4">
+      </video>
+      <div class="hero-overlay"></div>
+    </div>
+
+    <div class="scroll-indicator" aria-hidden="true">
+      <span></span>
+    </div>
+  </section>
+
+  <!-- ============ HERO CONTENT ============ -->
+  <section class="hero-content">
+    <div class="container hero-inner reveal">
+      <h1>The AI Operating System for<br>Modern Business</h1>
+      <p class="hero-subtitle">
+        SummerLabs automates your calls, quotes, scheduling and more —
+        so you can focus on what matters.
+      </p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-white">Get Started</a>
+        <a href="#voice-to-quote" class="btn btn-outline">See How It Works</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VIDEO SHOWCASE ============ -->
+  <section class="video-showcase" id="voice-to-quote">
+    <div class="container video-showcase-inner reveal">
+      <span class="eyebrow">How It Works</span>
+      <h2 class="video-showcase-title">Voice to Quote System</h2>
+      <p class="video-showcase-subtitle">
+        See how SummerLabs instantly converts voice calls into professional quotes
+      </p>
+
+      <div class="video-player" id="video-player">
+        <video class="video-player-el" id="video-player-el" playsinline preload="metadata">
+          <source src="assets/video/adv.mp4" type="video/mp4">
+        </video>
+        <button class="video-play-btn" id="video-play-btn" aria-label="Play video">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INTRO ============ -->
+  <section class="intro" id="intro">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="hero-mesh"></div>
+      <div class="glow-orb orb-purple"></div>
+      <div class="glow-orb orb-blue"></div>
+      <div class="glow-orb orb-purple-2"></div>
+    </div>
+
+    <div class="container intro-inner reveal">
+      <h2 class="intro-title">One Platform. Every Interaction. Zero Manual Work.</h2>
+      <p class="intro-subtitle">
+        AI-powered automation that runs your business around the clock.
+      </p>
+      <div class="intro-actions">
+        <a href="#contact" class="btn btn-white">Get Started</a>
+        <a href="#services" class="btn btn-outline">Explore Services</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STATS BAR ============ -->
+  <section class="stats" id="stats-bar">
+    <div class="container stats-grid">
+      <div class="stat-item reveal">
+        <div class="stat-number-row">
+          <span class="stat-number" data-target="24">0</span><span class="stat-suffix">/7</span>
+        </div>
+        <p>Availability</p>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-number-row">
+          <span class="stat-number" data-target="100">0</span><span class="stat-suffix">+</span>
+        </div>
+        <p>Calls Handled</p>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-number-row">
+          <span class="stat-number" data-target="90">0</span><span class="stat-suffix">%</span>
+        </div>
+        <p>Faster Response Time</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICES ============ -->
+  <section class="services" id="services">
+    <div class="container">
+      <span class="eyebrow reveal">Services</span>
+      <h2 class="section-title reveal">Everything Your Business Needs to Run on Autopilot</h2>
+
+      <div class="services-grid" id="services-grid">
+
+        <article class="service-card stagger">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 12v0M8 6v12M12 3v18M16 6v12M20 12v0"/></svg>
+          </div>
+          <h3>Voice Agent</h3>
+          <p>AI-powered voice assistant that handles calls naturally.</p>
+        </article>
+
+        <article class="service-card stagger">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>
+          </div>
+          <h3>AI Phone Answering</h3>
+          <p>Never miss a call — answered instantly, 24/7.</p>
+        </article>
+
+        <article class="service-card stagger">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16v12H9l-5 4V4z"/><path d="M8 9h8M8 12h5"/></svg>
+          </div>
+          <h3>AI Text Messaging</h3>
+          <p>Automated SMS responses and follow-ups.</p>
+        </article>
+
+        <article class="service-card stagger">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0014 0M12 17v4"/><path d="M16 21h5v-5"/></svg>
+          </div>
+          <h3>Voice to Quote System</h3>
+          <p>Convert voice calls into professional quotes instantly.</p>
+        </article>
+
+        <article class="service-card stagger">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 7h6M9 11h6M9 15h3"/></svg>
+          </div>
+          <h3>Quoting</h3>
+          <p>Capture enquiries and send quotes automatically.</p>
+        </article>
+
+        <article class="service-card stagger">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 7h6M9 11h4"/><circle cx="15" cy="16" r="2.5"/></svg>
+          </div>
+          <h3>Invoicing</h3>
+          <p>Create, send and track invoices with ease.</p>
+        </article>
+
+        <article class="service-card stagger">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          </div>
+          <h3>AI Email Responder</h3>
+          <p>Fast, intelligent email replies in your brand voice.</p>
+        </article>
+
+        <article class="service-card stagger">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="7" width="14" height="12" rx="2"/><path d="M12 7V4M9 4h6"/><circle cx="9" cy="12" r="1" fill="currentColor"/><circle cx="15" cy="12" r="1" fill="currentColor"/><path d="M9 16h6"/></svg>
+          </div>
+          <h3>AI Chatbot</h3>
+          <p>Engage website visitors and capture leads 24/7.</p>
+        </article>
+
+        <article class="service-card stagger">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M12 7v5M12 12L6.5 17.5M12 12l5.5 5.5"/></svg>
+          </div>
+          <h3>AI Agents</h3>
+          <p>Autonomous agents that handle complex business tasks.</p>
+        </article>
+
+        <article class="service-card stagger">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="8" r="3"/><path d="M2 21v-1a6 6 0 016-6h2a6 6 0 016 6v1"/><circle cx="17" cy="8" r="2.5"/><path d="M17 12a4.5 4.5 0 014.5 4.5v.5"/></svg>
+          </div>
+          <h3>Customer CRM</h3>
+          <p>Centralise all customer data and interactions.</p>
+        </article>
+
+        <article class="service-card stagger">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3h6v3H9z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <h3>Job Manager</h3>
+          <p>Create, assign and track jobs in real time.</p>
+        </article>
+
+        <article class="service-card stagger">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/><path d="M8 14h2M14 14h2M8 17h2"/></svg>
+          </div>
+          <h3>Smart Scheduling</h3>
+          <p>Optimise bookings and reduce scheduling conflicts.</p>
+        </article>
+
+        <article class="service-card stagger">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3"/><path d="M2 14h4M10 8h4M18 12h4"/></svg>
+          </div>
+          <h3>Train Your AI</h3>
+          <p>Customise and train your AI to match your business.</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="container">
+      <span class="eyebrow reveal">How It Works</span>
+      <h2 class="section-title reveal">Simple to Start. Powerful at Scale.</h2>
+
+      <div class="steps">
+        <div class="step stagger">
+          <span class="step-number">01</span>
+          <div class="step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 2v4M15 2v4M7 10h10v4a5 5 0 01-10 0z"/><path d="M12 19v3"/></svg>
+          </div>
+          <h3>Connect</h3>
+          <p>Plug SummerLabs into your existing tools.</p>
+        </div>
+        <div class="step stagger">
+          <span class="step-number">02</span>
+          <div class="step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/></svg>
+          </div>
+          <h3>Automate</h3>
+          <p>Let AI handle calls, quotes, jobs and more.</p>
+        </div>
+        <div class="step stagger">
+          <span class="step-number">03</span>
+          <div class="step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 17l5-5 4 4 7-8"/><path d="M14 8h5v5"/></svg>
+          </div>
+          <h3>Grow</h3>
+          <p>Focus on growth while AI runs the admin.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHO WE SERVE ============ -->
+  <section class="who-we-serve" id="who-we-serve">
+    <div class="container">
+      <span class="eyebrow reveal">Who We Serve</span>
+      <h2 class="section-title reveal">Built for Businesses That Mean Business</h2>
+
+      <div class="audience-grid">
+        <div class="audience-card stagger">
+          <div class="audience-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="3"/><path d="M9.5 9.5L18 18"/><circle cx="17" cy="17" r="3"/></svg>
+          </div>
+          <h3>Tradies</h3>
+          <p>From electricians to plumbers, we handle your calls and bookings.</p>
+        </div>
+        <div class="audience-card stagger">
+          <div class="audience-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l1-5h16l1 5"/><path d="M3 9v10h18V9"/><path d="M9 19v-5h6v5"/></svg>
+          </div>
+          <h3>Local Businesses</h3>
+          <p>Stay responsive and professional without the admin.</p>
+        </div>
+        <div class="audience-card stagger">
+          <div class="audience-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M9 8h2M13 8h2M9 12h2M13 12h2M9 16h2M13 16h2"/></svg>
+          </div>
+          <h3>Enterprises</h3>
+          <p>Scale your operations with powerful AI automation.</p>
+        </div>
+      </div>
+
+      <div class="shuffle-grid" id="shuffle-grid" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta" id="contact">
+    <div class="cta-bg" aria-hidden="true">
+      <div class="glow-orb orb-purple cta-orb"></div>
+      <div class="glow-orb orb-blue cta-orb-2"></div>
+    </div>
+    <div class="container cta-inner reveal">
+      <h2>Ready to Put Your Business on Autopilot?</h2>
+      <p>Join hundreds of businesses already using SummerLabs.</p>
+      <a href="#" class="btn btn-fey">Book a Free Demo</a>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="container footer-top">
+        <a href="#home" class="logo">
+          <img src="assets/images/logo.png" alt="SummerLabs" class="logo-img">
+        </a>
+        <p class="footer-tagline">The AI Operating System for Modern Business</p>
+      </div>
+
+      <div class="container footer-columns">
+        <div class="footer-col">
+          <nav class="footer-links">
+            <a href="#services">Services</a>
+            <a href="#how-it-works">About</a>
+            <a href="#contact">Contact</a>
+            <a href="#">Privacy Policy</a>
+          </nav>
+          <p class="footer-copyright">
+            <img src="assets/images/logo.png" alt="" class="footer-copyright-icon">
+            &copy; 2026 SummerLabs. All rights reserved.
+          </p>
+        </div>
+
+        <div class="footer-col footer-col-right">
+          <div class="footer-socials">
+            <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 014 0v4M11 13v4"/></svg></a>
+            <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 3h-2a4 4 0 00-4 4v3H7v4h3v7h4v-7h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+          </div>
+          <button class="footer-back-to-top" id="back-to-top" type="button">Back to top</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="wave-container" id="wave-container" aria-hidden="true"></div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
