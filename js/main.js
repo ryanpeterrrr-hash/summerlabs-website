@@ -1,220 +1,192 @@
-/* =========================================
-   Navbar: solid background + shrink on scroll
-========================================= */
-const navbar = document.getElementById('navbar');
-const navToggle = document.getElementById('nav-toggle');
-const navLinks = document.getElementById('nav-links');
+/* =========================================================
+   SummerLabs — Main JavaScript
+   Handles: logo fallback, navbar state, mobile menu,
+   scroll-triggered animations, and stat counters.
+   ========================================================= */
 
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 20);
+document.addEventListener('DOMContentLoaded', () => {
+  initLogoFallback();
+  initNavbar();
+  initMobileMenu();
+  initScrollAnimations();
+  initHeroParallax();
 });
 
-/* Mobile hamburger menu */
-navToggle.addEventListener('click', () => {
-  const isOpen = navLinks.classList.toggle('open');
-  navToggle.classList.toggle('open', isOpen);
-  navToggle.setAttribute('aria-expanded', isOpen);
-});
+/* -----------------------------------------------------------
+   Logo fallback
+   If assets/images/logo.png fails to load, swap every
+   .logo-img / .logo-text pair for the text "SummerLabs".
+----------------------------------------------------------- */
+function initLogoFallback() {
+  const logo = new Image();
+  logo.src = 'assets/images/logo.png';
 
-navLinks.querySelectorAll('a').forEach((link) => {
-  link.addEventListener('click', () => {
-    navLinks.classList.remove('open');
-    navToggle.classList.remove('open');
-    navToggle.setAttribute('aria-expanded', 'false');
-  });
-});
-
-/* =========================================
-   Scroll-triggered reveal animations
-   Cards with the "stagger" class fade up one
-   after another based on their position in
-   their parent container.
-========================================= */
-document.querySelectorAll('.stagger').forEach((el) => {
-  const siblings = Array.from(el.parentElement.children).filter((c) => c.classList.contains('stagger'));
-  const index = siblings.indexOf(el);
-  el.style.setProperty('--delay', `${(index % 4) * 0.12}s`);
-});
-
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  },
-  { threshold: 0.15 }
-);
-
-document.querySelectorAll('.reveal, .stagger').forEach((el) => revealObserver.observe(el));
-
-/* =========================================
-   Video showcase - thumbnail play button
-========================================= */
-const videoPlayBtn = document.getElementById('video-play-btn');
-const videoPlayerEl = document.getElementById('video-player-el');
-
-if (videoPlayBtn && videoPlayerEl) {
-  videoPlayBtn.addEventListener('click', () => {
-    videoPlayerEl.controls = true;
-    videoPlayerEl.play();
-  });
-
-  videoPlayerEl.addEventListener('play', () => {
-    videoPlayBtn.classList.add('is-hidden');
-  });
-
-  videoPlayerEl.addEventListener('pause', () => {
-    videoPlayBtn.classList.remove('is-hidden');
+  logo.addEventListener('error', () => {
+    document.body.classList.add('logo-fallback');
   });
 }
 
-/* =========================================
-   Stats counter animation
-========================================= */
-function animateCount(el) {
-  const target = parseInt(el.dataset.target, 10);
-  const duration = 1400;
+/* -----------------------------------------------------------
+   Navbar
+   Adds a "scrolled" class once the user scrolls past the
+   hero so the navbar can switch from transparent to solid.
+----------------------------------------------------------- */
+function initNavbar() {
+  const navbar = document.getElementById('navbar');
+  if (!navbar) return;
+
+  const SCROLL_THRESHOLD = 40;
+
+  const updateNavbar = () => {
+    navbar.classList.toggle('scrolled', window.scrollY > SCROLL_THRESHOLD);
+  };
+
+  updateNavbar();
+  window.addEventListener('scroll', updateNavbar, { passive: true });
+}
+
+/* -----------------------------------------------------------
+   Mobile menu
+   Toggles the fullscreen nav overlay and closes it whenever
+   a link inside it is clicked.
+----------------------------------------------------------- */
+function initMobileMenu() {
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('nav-links');
+  if (!hamburger || !navLinks) return;
+
+  const toggleMenu = () => {
+    const isOpen = navLinks.classList.toggle('open');
+    hamburger.classList.toggle('active', isOpen);
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  };
+
+  hamburger.addEventListener('click', toggleMenu);
+
+  navLinks.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      if (navLinks.classList.contains('open')) toggleMenu();
+    });
+  });
+}
+
+/* -----------------------------------------------------------
+   Scroll-triggered animations
+   Uses IntersectionObserver to reveal elements with the
+   .animate-on-scroll class, applies a staggered delay to
+   cards within grids, and kicks off the stat counters.
+----------------------------------------------------------- */
+function initScrollAnimations() {
+  const animatedEls = document.querySelectorAll('.animate-on-scroll');
+
+  // Assign a --card-index custom property so grouped cards
+  // (services, steps, audience) fade in one after another.
+  const groups = document.querySelectorAll(
+    '.services-grid, .steps-container, .audience-grid, .stats-container'
+  );
+
+  groups.forEach((group) => {
+    const items = group.querySelectorAll('.animate-on-scroll');
+    items.forEach((item, index) => {
+      item.style.setProperty('--card-index', index);
+    });
+  });
+
+  const observer = new IntersectionObserver(
+    (entries, obs) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        entry.target.classList.add('visible');
+
+        // If this element contains a stat number, animate it.
+        const statNumber = entry.target.querySelector('.stat-number');
+        if (statNumber) animateCounter(statNumber);
+
+        obs.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.15, rootMargin: '0px 0px -60px 0px' }
+  );
+
+  animatedEls.forEach((el) => observer.observe(el));
+}
+
+/* -----------------------------------------------------------
+   Stat counters
+   Animates a number from 0 up to data-target, appending
+   data-suffix (e.g. "+", "%", "/7") once finished.
+----------------------------------------------------------- */
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target, 10) || 0;
+  const suffix = el.dataset.suffix || '';
+  const duration = 1600;
   const start = performance.now();
 
-  function step(now) {
+  const easeOutExpo = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
+
+  const formatNumber = (value) => value.toLocaleString('en-US');
+
+  function tick(now) {
     const progress = Math.min((now - start) / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3);
-    el.textContent = Math.round(eased * target);
-    if (progress < 1) requestAnimationFrame(step);
+    const eased = easeOutExpo(progress);
+    const current = Math.round(eased * target);
+
+    el.textContent = formatNumber(current) + suffix;
+
+    if (progress < 1) {
+      requestAnimationFrame(tick);
+    } else {
+      el.textContent = formatNumber(target) + suffix;
+    }
   }
 
-  requestAnimationFrame(step);
+  requestAnimationFrame(tick);
 }
 
-const statsObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        animateCount(entry.target);
-        statsObserver.unobserve(entry.target);
+/* -----------------------------------------------------------
+   Hero parallax / zoom
+   As the user scrolls through the hero, the content gently
+   zooms out and fades while the background glow orbs drift
+   at a slower rate — a cinematic depth effect.
+----------------------------------------------------------- */
+function initHeroParallax() {
+  const hero = document.querySelector('.hero');
+  const content = document.querySelector('.hero-content');
+  const orbs = document.querySelectorAll('.glow-orb');
+  if (!hero || !content) return;
+
+  let ticking = false;
+
+  const update = () => {
+    const heroHeight = hero.offsetHeight;
+    const progress = Math.min(Math.max(window.scrollY / heroHeight, 0), 1);
+
+    const scale = 1 - progress * 0.15;
+    const opacity = 1 - progress * 1.2;
+
+    content.style.scale = scale.toFixed(3);
+    content.style.opacity = Math.max(opacity, 0).toFixed(3);
+
+    orbs.forEach((orb, index) => {
+      const depth = (index + 1) * 40;
+      orb.style.translate = `0 ${(progress * depth).toFixed(1)}px`;
+    });
+
+    ticking = false;
+  };
+
+  update();
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
       }
-    });
-  },
-  { threshold: 0.4 }
-);
-
-document.querySelectorAll('.stat-number').forEach((el) => statsObserver.observe(el));
-
-/* =========================================
-   Who We Serve - decorative shuffle grid
-   Builds a grid of gradient cells and
-   periodically reshuffles their scale/opacity
-   while the section is in view.
-========================================= */
-const shuffleGrid = document.getElementById('shuffle-grid');
-
-if (shuffleGrid) {
-  const gradients = [
-    'linear-gradient(135deg, #7c3aed, #3b82f6)',
-    'linear-gradient(135deg, #3b82f6, #7c3aed)',
-    'linear-gradient(135deg, #a855f7, #3b82f6)',
-    'linear-gradient(135deg, #3b82f6, #a855f7)',
-  ];
-
-  const cells = [];
-  for (let i = 0; i < 16; i += 1) {
-    const cell = document.createElement('div');
-    cell.className = 'shuffle-cell';
-    cell.style.background = gradients[i % gradients.length];
-    cell.style.opacity = (0.3 + Math.random() * 0.5).toFixed(2);
-    shuffleGrid.appendChild(cell);
-    cells.push(cell);
-  }
-
-  function shuffleCells() {
-    cells.forEach((cell) => {
-      cell.style.opacity = (0.25 + Math.random() * 0.55).toFixed(2);
-      cell.style.transform = `scale(${(0.85 + Math.random() * 0.25).toFixed(2)})`;
-    });
-  }
-
-  let shuffleInterval = null;
-
-  const shuffleObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting && !shuffleInterval) {
-          shuffleInterval = setInterval(shuffleCells, 1800);
-        } else if (!entry.isIntersecting && shuffleInterval) {
-          clearInterval(shuffleInterval);
-          shuffleInterval = null;
-        }
-      });
     },
-    { threshold: 0.2 }
+    { passive: true }
   );
-
-  shuffleObserver.observe(shuffleGrid);
-}
-
-/* =========================================
-   Footer - animated wave bars
-   Builds a row of bars and animates them
-   with a sine wave while in view.
-========================================= */
-const waveContainer = document.getElementById('wave-container');
-
-if (waveContainer) {
-  const barCount = 23;
-  const bars = [];
-
-  /* Same purple/lavender used at the top of the CTA section above the footer */
-  const waveBarColor = '#d6bef0';
-
-  for (let i = 0; i < barCount; i += 1) {
-    const bar = document.createElement('div');
-    bar.className = 'wave-bar';
-    bar.style.height = `${i + 1}px`;
-    bar.style.background = waveBarColor;
-    waveContainer.appendChild(bar);
-    bars.push(bar);
-  }
-
-  let waveTime = 0;
-  let waveFrame = null;
-
-  function animateWave() {
-    let offset = 0;
-    bars.forEach((bar, index) => {
-      offset += Math.max(0, 20 * Math.sin((waveTime + index) * 0.3));
-      bar.style.transform = `translateY(${(index + offset).toFixed(2)}px)`;
-    });
-    waveTime += 0.1;
-    waveFrame = requestAnimationFrame(animateWave);
-  }
-
-  const waveObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting && waveFrame === null) {
-          animateWave();
-        } else if (!entry.isIntersecting && waveFrame !== null) {
-          cancelAnimationFrame(waveFrame);
-          waveFrame = null;
-        }
-      });
-    },
-    { threshold: 0.1 }
-  );
-
-  waveObserver.observe(waveContainer);
-}
-
-/* =========================================
-   Footer - back to top
-========================================= */
-const backToTop = document.getElementById('back-to-top');
-
-if (backToTop) {
-  backToTop.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
 }
