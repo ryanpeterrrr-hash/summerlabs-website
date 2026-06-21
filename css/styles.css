@@ -803,65 +803,7 @@ section {
 }
 
 /* -----------------------------------------------------------
-   10. CTA Section
------------------------------------------------------------ */
-.cta-section {
-  padding: var(--section-padding) var(--container-padding);
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.cta-glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 700px;
-  height: 700px;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.3), rgba(59, 130, 246, 0.12) 45%, transparent 70%);
-  filter: blur(60px);
-  z-index: 0;
-}
-
-.cta-content {
-  position: relative;
-  z-index: 1;
-  max-width: 680px;
-  margin: 0 auto;
-}
-
-.cta-title {
-  font-size: clamp(2rem, 5vw, 3.25rem);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  margin-bottom: 18px;
-}
-
-.cta-subtitle {
-  font-size: 1.1rem;
-  color: var(--text-secondary);
-  margin-bottom: 36px;
-}
-
-.cta-email {
-  margin-top: 20px;
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-}
-
-.cta-email a {
-  color: var(--text-primary);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.cta-email a:hover {
-  opacity: 0.75;
-}
-
-/* -----------------------------------------------------------
-   11. Footer
+   10. Footer
 ----------------------------------------------------------- */
 .footer {
   border-top: 1px solid var(--border-color);
