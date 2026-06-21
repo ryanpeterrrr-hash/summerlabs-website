@@ -162,7 +162,7 @@ function initContactForm() {
     submitBtn.textContent = 'Sending…';
 
     try {
-      const response = await fetch('https://formsubmit.co/ajax/contact@summerlabs.io', {
+      const response = await fetch('https://formsubmit.co/ajax/el/rumeta', {
         method: 'POST',
         headers: { Accept: 'application/json' },
         body: new FormData(form),
