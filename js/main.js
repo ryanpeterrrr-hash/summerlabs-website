@@ -9,7 +9,6 @@ initNavbar();
 initMobileMenu();
 initScrollAnimations();
 initHeroParallax();
-initContactForm();
 
 /* -----------------------------------------------------------
    Logo fallback
@@ -142,46 +141,6 @@ function animateCounter(el) {
   }
 
   requestAnimationFrame(tick);
-}
-
-/* -----------------------------------------------------------
-   Contact form
-   Submits via FormSubmit's AJAX endpoint so the page never
-   redirects — on success the form is swapped for a thank-you.
------------------------------------------------------------ */
-function initContactForm() {
-  const form = document.getElementById('contact-form');
-  const success = document.getElementById('form-success');
-  if (!form || !success) return;
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const btn = form.querySelector('button[type="submit"]');
-    const original = btn.textContent;
-    btn.disabled = true;
-    btn.textContent = 'Sending…';
-
-    fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: { Accept: 'application/json' },
-      body: new FormData(form),
-    })
-      .then(function (res) { return res.json(); })
-      .then(function (data) {
-        if (data.success) {
-          form.hidden = true;
-          success.hidden = false;
-        } else {
-          throw new Error(data.message);
-        }
-      })
-      .catch(function () {
-        btn.disabled = false;
-        btn.textContent = original;
-        alert('Something went wrong — please email us at contact@summerlabs.io');
-      });
-  });
 }
 
 /* -----------------------------------------------------------
