@@ -154,29 +154,33 @@ function initContactForm() {
   const success = document.getElementById('form-success');
   if (!form || !success) return;
 
-  form.addEventListener('submit', async (e) => {
+  form.addEventListener('submit', function (e) {
     e.preventDefault();
-    const submitBtn = form.querySelector('[type="submit"]');
+    e.stopPropagation();
+
+    const submitBtn = form.querySelector('button[type="submit"]');
     const originalText = submitBtn.textContent;
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending…';
 
-    try {
-      const response = await fetch('https://formsubmit.co/ajax/el/rumeta', {
-        method: 'POST',
-        headers: { Accept: 'application/json' },
-        body: new FormData(form),
+    fetch('https://formsubmit.co/ajax/el/rumeta', {
+      method: 'POST',
+      headers: { Accept: 'application/json' },
+      body: new FormData(form),
+    })
+      .then(function (response) {
+        if (!response.ok) throw new Error('Bad response');
+        return response.json();
+      })
+      .then(function () {
+        form.hidden = true;
+        success.hidden = false;
+      })
+      .catch(function () {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+        alert('Something went wrong — please email us at contact@summerlabs.io');
       });
-
-      if (!response.ok) throw new Error('Network response was not ok');
-
-      form.hidden = true;
-      success.hidden = false;
-    } catch {
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
-      alert('Something went wrong — please try again or email us directly.');
-    }
   });
 }
 
