@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileMenu();
   initScrollAnimations();
   initHeroParallax();
+  initContactForm();
 });
 
 /* -----------------------------------------------------------
@@ -143,6 +144,42 @@ function animateCounter(el) {
   }
 
   requestAnimationFrame(tick);
+}
+
+/* -----------------------------------------------------------
+   Contact form
+   Submits via FormSubmit's AJAX endpoint so the page never
+   redirects — on success the form is swapped for a thank-you.
+----------------------------------------------------------- */
+function initContactForm() {
+  const form = document.getElementById('contact-form');
+  const success = document.getElementById('form-success');
+  if (!form || !success) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = form.querySelector('[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/contact@summerlabs.io', {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form),
+      });
+
+      if (!response.ok) throw new Error('Network response was not ok');
+
+      form.hidden = true;
+      success.hidden = false;
+    } catch {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+      alert('Something went wrong — please try again or email us directly.');
+    }
+  });
 }
 
 /* -----------------------------------------------------------
